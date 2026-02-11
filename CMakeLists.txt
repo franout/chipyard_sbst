@@ -9,7 +9,11 @@
 #   Cleaning:
 #     cmake --build ./build/ --target clean
 ########################################################################################################################
+
 cmake_minimum_required(VERSION 3.10)
+
+# Option to specify a single source file for out-of-tree or custom builds
+set(TEST_SOURCE "" CACHE STRING "Path to a single source file to build instead of default sources.")
 
 project(chipyard-tests LANGUAGES C CXX ASM)
 
@@ -69,13 +73,21 @@ include_directories(${CMAKE_SOURCE_DIR}/src/tests)
 # Build
 #################################
 
-file(GLOB TEST_SOURCES
-     "${CMAKE_SOURCE_DIR}/src/tests/*.c"
-     "${CMAKE_SOURCE_DIR}/src/tests/*.s"
-     "${CMAKE_SOURCE_DIR}/src/tests/*.S"
-)
 
-add_executable(sbst ./src/main.c ${TEST_SOURCES})
+# If TEST_SOURCE is set, use it as the only source file
+if(TEST_SOURCE)
+    message(STATUS "Building single source test: ${TEST_SOURCE}")
+    add_executable(sbst ./src/main.c 
+                    ${CMAKE_SOURCE_DIR}/src/tests/tests.c
+                    ${TEST_SOURCE})
+else()
+    file(GLOB TEST_SOURCES
+         "${CMAKE_SOURCE_DIR}/src/tests/*.c"
+         "${CMAKE_SOURCE_DIR}/src/tests/*.s"
+         "${CMAKE_SOURCE_DIR}/src/tests/*.S"
+    )
+    add_executable(sbst ./src/main.c ${TEST_SOURCES})
+endif()
 
 #################################
 # Disassembly

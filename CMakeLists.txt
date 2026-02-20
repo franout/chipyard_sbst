@@ -78,7 +78,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/tests)
 if(TEST_SOURCE)
     message(STATUS "Building single source test: ${TEST_SOURCE}")
     add_executable(sbst ./src/main.c 
-                    ${CMAKE_SOURCE_DIR}/src/tests/tests.c
+                    ${CMAKE_SOURCE_DIR}/src/tests.c
                     ${TEST_SOURCE})
 else()
     file(GLOB TEST_SOURCES

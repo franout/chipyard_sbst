@@ -68,6 +68,7 @@ add_link_options(-T ${LINKER_SCRIPT})
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/src/tests)
+include_directories(${CMAKE_SOURCE_DIR}/src/)
 
 #################################
 # Build
@@ -82,9 +83,10 @@ if(TEST_SOURCE)
                     ${TEST_SOURCE})
 else()
     file(GLOB TEST_SOURCES
-         "${CMAKE_SOURCE_DIR}/src/tests/*.c"
-         "${CMAKE_SOURCE_DIR}/src/tests/*.s"
-         "${CMAKE_SOURCE_DIR}/src/tests/*.S"
+        "${CMAKE_SOURCE_DIR}/src/*.c"
+         "${CMAKE_SOURCE_DIR}/src/tests/example/*.c"
+         "${CMAKE_SOURCE_DIR}/src/tests/example/.s"
+         "${CMAKE_SOURCE_DIR}/src/tests/example/.S"
     )
     add_executable(sbst ./src/main.c ${TEST_SOURCES})
 endif()
